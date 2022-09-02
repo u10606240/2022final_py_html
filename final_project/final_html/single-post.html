@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+</head>
+
+
+
+<body>
+
+
+  <script type="text/javascript">
+var data=[
+  {x:1, w:600,y:'age0~10'},
+  {x:2, w:Math.floor(Math.random()*200),y:'age0~10'},
+  {x:3, w:Math.floor(Math.random()*200),y:'age11~20'},
+  {x:4, w:Math.floor(Math.random()*200),y:'age11~20'},
+  {x:5, w:Math.floor(Math.random()*200),y:'age21~30'},
+  {x:6, w:Math.floor(Math.random()*200),y:'age21~30'},
+  {x:7, w:Math.floor(Math.random()*200),y:'age31~40'},
+  {x:8, w:Math.floor(Math.random()*200),y:'age31~40'},
+  {x:9, w:Math.floor(Math.random()*200),y:'age41~50'},
+  {x:10, w:Math.floor(Math.random()*200),y:'age41~50'},
+  {x:11, w:Math.floor(Math.random()*200),y:'age51~60'},
+  {x:12, w:Math.floor(Math.random()*200),y:'age51~60'},
+  {x:13, w:Math.floor(Math.random()*200),y:'age61~70'},
+  {x:14, w:Math.floor(Math.random()*200),y:'age61~70'},
+  {x:15, w:Math.floor(Math.random()*200),y:'age71~80'},
+  {x:16, w:Math.floor(Math.random()*200),y:'age71~80'},
+  {x:17, w:Math.floor(Math.random()*200),y:'age81~90'},
+  {x:18, w:Math.floor(Math.random()*200),y:'age81~90'},
+  {x:19, w:Math.floor(Math.random()*200),y:'age91up'},
+  {x:20, w:24,y:'age91up'}
+];
+var s = d3.select('body')
+          .append('svg')
+		  .attr({
+			'width':1000,
+            'height':700
+          });
+		  
+var date = s.append('g')
+            .attr({
+              'id':'date'
+            });
+			
+s.selectAll('rect')
+ .data(data)
+ .enter()
+ .append('rect')
+ .attr({
+  'fill':function(d){
+    if(d.x%2==1) return '#09c';
+	else return '#c09';
+  },
+  'width':0,
+  'height':15,
+  'x':83,
+  'y':function(d){
+    return (d.x-1) * 35;
+  }
+ })
+ .transition()
+ .duration(1500)
+ .attr({
+  'width':function(d){
+    return d.w;
+  }
+ });
+
+s.selectAll('text')
+ .data(data)
+ .enter()
+ .append('text')
+ .text(function(d){
+  return 0;
+ })
+ .attr({
+  'fill':'#000',
+  'x':85,
+  'y':function(d){
+    return d.x * 35 - 12;
+  }
+ })
+ .transition()
+ .duration(1500)
+ .attr({
+  'x':function(d){
+    return d.w + 85;
+  }
+ })
+ .tween('number',function(d){
+    var i = d3.interpolateRound(0, d.w);
+      return function(t) {
+      this.textContent = i(t);
+    };
+ });
+ 
+ date.selectAll('text')
+  .data(data)
+  .enter()
+  .append('text')
+  .attr({
+    'fill':'#000',
+    'text-anchor': 'end',
+    'x': 80,
+    'y':function(d){
+      console.log(d);
+      return d.x * 35-20;
+    }
+  })
+  .text(function(d){
+    return d.y;
+  })
+  .style({
+    'font-size':'16px'
+  });
+</script>
+</body>
+</html>
